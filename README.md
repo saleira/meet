@@ -1,5 +1,43 @@
 # Feature Scenarios
 
+## Feature 1: Filter Events By City
+
+### As a Role Scenarios
+
+- **Scenario 1**:
+  *As a user,*  
+  *I should see upcoming events from all cities when I haven’t searched for a city,*  
+  *So that I can explore all available events.*
+
+- **Scenario 2**:  
+  *As a user,*  
+  *I should see a list of suggestions when I search for a city,*  
+  *So that I can quickly find relevant results.*
+
+- **Scenario 3**:  
+  *As a user,*  
+  *I should be able to select a city from the suggested list,*  
+  *So that I can filter events specific to that city.*
+
+### Given-When-Then Scenarios
+
+- **Scenario 1**:  
+  **Given** the user has not searched for a city,  
+  **When** the user views the events list,  
+  **Then** the app should display upcoming events from all cities.
+
+- **Scenario 2**:  
+  **Given** the user is typing in the city search bar,  
+  **When** the user enters a query,  
+  **Then** the app should display a list of city suggestions.
+
+- **Scenario 3**:  
+  **Given** the user has received a list of city suggestions,  
+  **When** the user selects a city from the list,  
+  **Then** the app should filter and display events specific to the selected city.
+
+---
+
 ## Feature 2: Show/Hide Event Details
 
 ### As a Role Scenarios
