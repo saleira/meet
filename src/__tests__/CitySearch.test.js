@@ -1,15 +1,15 @@
-import React from "react";
-import { render } from "@testing-library/react";
+import { render, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import CitySearch from "../components/CitySearch";
 import { extractLocations, getEvents } from "../api";
+import App from "../App";
 
 describe('<CitySearch/> component', () => {
     let CitySearchComponent;
     let cityTextBox;
     let user;
     beforeEach(() => {
-        CitySearchComponent = render(<CitySearch/>);
+        CitySearchComponent = render(<CitySearch allLocations={[]} setCurrentCity={() => { }} />);
         cityTextBox = CitySearchComponent.queryByRole('textbox');
         user = userEvent.setup();
     });
@@ -60,7 +60,7 @@ describe('<CitySearch/> component', () => {
     test('renders the suggestion text in the textbox upon cliking on the suggestion', async () => {
         const allEvents = await getEvents();
         const allLocations = extractLocations(allEvents);
-        CitySearchComponent.rerender(<CitySearch allLocations={allLocations}/>);
+        CitySearchComponent.rerender(<CitySearch allLocations={allLocations} setCurrentCity={() => { }}/>);
 
         const cityTextBox = CitySearchComponent.queryByRole('textbox');
         await user.type(cityTextBox, "Berlin");
@@ -68,5 +68,36 @@ describe('<CitySearch/> component', () => {
         const BerlinGermanySuggestion = CitySearchComponent.queryAllByRole('listitem')[0];
         await user.click(BerlinGermanySuggestion);
         expect(cityTextBox).toHaveValue(BerlinGermanySuggestion.textContent);
-    })
+    });
+
+    test('renders only "See all cities" when a non-existent city is typed', async () => {
+        const allEvents = await getEvents();
+        const allLocations = extractLocations(allEvents);
+        CitySearchComponent.rerender(<CitySearch allLocations={allLocations} setCurrentCity={() => { }} />);
+
+        const cityTextBox = CitySearchComponent.queryByRole('textbox');
+        await user.type(cityTextBox, "Paris,");
+        const suggestionItems = CitySearchComponent.queryAllByRole('listitem');
+
+        expect(suggestionItems.length).toBe(1);
+        expect(suggestionItems[0].textContent).toBe('See all cities');
+    });
+});
+
+describe('<CitySearch/> integration', () => {
+    test('renders suggestions list when the app is redered', async () => {
+        const user = userEvent.setup();
+        const AppComponent = render(<App />);
+        const AppDOM = AppComponent.container.firstChild;
+
+        const CitySearchDOM = AppDOM.querySelector('#city-search');
+        const cityTextBox = within(CitySearchDOM).queryByRole('textbox');
+        await user.click(cityTextBox);
+
+        const allEvents = await getEvents();
+        const allLocations = extractLocations(allEvents);
+
+        const suggestionListItems = within(CitySearchDOM).queryAllByRole('listitem');
+        expect(suggestionListItems).toHaveLength(allLocations.length + 1);
+    });
 });
