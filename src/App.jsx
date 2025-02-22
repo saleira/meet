@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     fecthData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentCity]);
+  }, [currentCity, currentNOE]);
 
   const fecthData = async () => {
     const allEvents = await getEvents();
@@ -28,7 +28,7 @@ function App() {
   return (
     <div className="App">
       <CitySearch allLocations={allLocations} setCurrentCity={setCurrentCity}/>
-      <NumberOfEvents />
+      <NumberOfEvents currentNOE={currentNOE} setCurrentNOE={setCurrentNOE}/>
       <EventList events={events}/>
     </div>
   );
