@@ -4,24 +4,27 @@ import userEvent from "@testing-library/user-event";
 
 describe("<NumberOfEvents/> component", () => {
     let numberOfEventsComponent;
-    let input;
+    let setCurrentNOE;
     beforeEach(() => {
-        numberOfEventsComponent = render(<NumberOfEvents />);
-        input = numberOfEventsComponent.getByRole("textbox");
+        setCurrentNOE = jest.fn();
+        numberOfEventsComponent = render(<NumberOfEvents currentNOE={32} setCurrentNOE={setCurrentNOE}/>);
     });
 
     test("checks if component contains a textbox", () => {
+        const input = numberOfEventsComponent.getByRole("textbox");
         expect(input).toBeInTheDocument();
     });
 
     test('renders input with default value of 32', () => {
+        const input = numberOfEventsComponent.getByRole("textbox");
         expect(input.value).toBe('32');
     });
 
     test('updates the input value when the user types', async () => {
+        const input = numberOfEventsComponent.getByRole("textbox");
         const user = userEvent.setup();
-        // Simulate user typing: backspace twice and then typing "10"
         await user.type(input, '{backspace}{backspace}10');
         expect(input).toHaveValue('10');
     });
+
 });
