@@ -10,21 +10,20 @@ describe("<NumberOfEvents/> component", () => {
         numberOfEventsComponent = render(<NumberOfEvents currentNOE={32} setCurrentNOE={setCurrentNOE}/>);
     });
 
-    test("checks if component contains a textbox", () => {
-        const input = numberOfEventsComponent.getByRole("textbox");
+    test("checks if component contains a spinbutton", () => {
+        const input = numberOfEventsComponent.getByRole("spinbutton");
         expect(input).toBeInTheDocument();
     });
 
     test('renders input with default value of 32', () => {
-        const input = numberOfEventsComponent.getByRole("textbox");
+        const input = numberOfEventsComponent.getByRole("spinbutton");
         expect(input.value).toBe('32');
     });
 
     test('updates the input value when the user types', async () => {
-        const input = numberOfEventsComponent.getByRole("textbox");
+        const input = numberOfEventsComponent.getByRole("spinbutton");
         const user = userEvent.setup();
         await user.type(input, '{backspace}{backspace}10');
-        expect(input).toHaveValue('10');
+        expect(input).toHaveValue(10);
     });
-
 });
