@@ -1,12 +1,22 @@
+import { set } from "nprogress";
 import { useState } from "react";
 /* eslint-disable react/prop-types */
-const NumberOfEvents = ({currentNOE, setCurrentNOE}) => {
+const NumberOfEvents = ({currentNOE, setCurrentNOE, setErrorAlert}) => {
     const [number, setNumber] = useState(currentNOE);
 
     const handleInputChanged = (event) => {
         const value = event.target.value;
         setNumber(value);
-        setCurrentNOE(Number(value));
+        
+
+        let errorText;
+        if (isNaN(value) || value <= 0) {
+            errorText = "Please enter a valid number";
+        } else {
+            errorText = "";
+            setCurrentNOE(Number(value));
+        } 
+        setErrorAlert(errorText);
 
     };
     return (
