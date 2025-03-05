@@ -7,7 +7,7 @@ describe("<NumberOfEvents/> component", () => {
     let setCurrentNOE;
     beforeEach(() => {
         setCurrentNOE = jest.fn();
-        numberOfEventsComponent = render(<NumberOfEvents currentNOE={32} setCurrentNOE={setCurrentNOE}/>);
+        numberOfEventsComponent = render(<NumberOfEvents currentNOE={32} setCurrentNOE={setCurrentNOE} setErrorAlert={() => {}}/>);
     });
 
     test("checks if component contains a spinbutton", () => {
