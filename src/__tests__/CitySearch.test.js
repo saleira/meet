@@ -9,7 +9,7 @@ describe('<CitySearch/> component', () => {
     let cityTextBox;
     let user;
     beforeEach(() => {
-        CitySearchComponent = render(<CitySearch allLocations={[]} setCurrentCity={() => { }} />);
+        CitySearchComponent = render(<CitySearch allLocations={[]} setCurrentCity={() => { }} setInfoAlert={() => { }} />);
         cityTextBox = CitySearchComponent.queryByRole('textbox');
         user = userEvent.setup();
     });
@@ -35,7 +35,7 @@ describe('<CitySearch/> component', () => {
         const user = userEvent.setup();
         const allEvents = await getEvents();
         const allLocations = extractLocations(allEvents);
-        CitySearchComponent.rerender(<CitySearch allLocations={allLocations} />);
+        CitySearchComponent.rerender(<CitySearch allLocations={allLocations} setCurrentCity={() => { }} setInfoAlert={() => { }} />);
 
 
         // user types "Berlin" in city textbox
@@ -60,7 +60,7 @@ describe('<CitySearch/> component', () => {
     test('renders the suggestion text in the textbox upon cliking on the suggestion', async () => {
         const allEvents = await getEvents();
         const allLocations = extractLocations(allEvents);
-        CitySearchComponent.rerender(<CitySearch allLocations={allLocations} setCurrentCity={() => { }}/>);
+        CitySearchComponent.rerender(<CitySearch allLocations={allLocations} setCurrentCity={() => { }} setInfoAlert={() => { }} />);
 
         const cityTextBox = CitySearchComponent.queryByRole('textbox');
         await user.type(cityTextBox, "Berlin");
@@ -73,7 +73,7 @@ describe('<CitySearch/> component', () => {
     test('renders only "See all cities" when a non-existent city is typed', async () => {
         const allEvents = await getEvents();
         const allLocations = extractLocations(allEvents);
-        CitySearchComponent.rerender(<CitySearch allLocations={allLocations} setCurrentCity={() => { }} />);
+        CitySearchComponent.rerender(<CitySearch allLocations={allLocations} setCurrentCity={() => { }} setInfoAlert={() => { }} />);
 
         const cityTextBox = CitySearchComponent.queryByRole('textbox');
         await user.type(cityTextBox, "Paris,");
